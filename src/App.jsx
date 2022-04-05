@@ -14,10 +14,6 @@ import ChinchillaList from './pages/ChinchillaList/ChinchillaList'
 import EditChinchilla from './pages/EditChinchilla/EditChinchilla'
 
 
-// const App = () => {
-//   const [user, setUser] = useState(authService.getUser())
-//   const [profiles, setProfiles] = useState([])
-//   const navigate = useNavigate()
 
 function App() {
   const [chinchillas, setChinchillas] = useState([])
