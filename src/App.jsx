@@ -21,9 +21,11 @@ function App() {
 
 
   useEffect(() => {
-    chinchillaService.getAll()
-      .then(allChinchillas => setChinchillas(allChinchillas))
-  }, [])
+    if (user) {
+      chinchillaService.getAll()
+        .then(allChinchillas => setChinchillas(allChinchillas))
+    }
+  }, [user])
 
   const handleAddChinchilla = async newChinchillaData => {
     const newChinchilla = await chinchillaService.create(newChinchillaData)
@@ -37,7 +39,7 @@ function App() {
   }
 
   const handleUpdateChinchilla = updatedChinchillaData => {
-    chinchillaSservice.update(updatedChinchillaData)
+    chinchillaService.update(updatedChinchillaData)
       .then(updatedChinchilla => {
         const newChinchillasArray = chinchillas.map(chinchilla._id === updatedChinchilla._id ? updatedChinchilla : chinchilla)
         setChinchillas(newChinchillasArray)
@@ -59,30 +61,35 @@ function App() {
   return (
     <div className="App">
       <NavBar user={user} handleLogout={handleLogout} />
-
       <main>
         <Routes>
           <Route
-            path='/add' element={<AddChinchilla handleAddChinchilla={handleAddChinchilla}
-            />
+            path='/add'
+            element={
+              <AddChinchilla
+                handleAddChinchilla={handleAddChinchilla}
+              />
             }
           />
           <Route
             path='/'
             element={
+              user ?
               <ChinchillaList
                 handleDeleteChinchilla={handleDeleteChinchilla}
                 chinchillas={chinchillas}
-
+                user={user}
               />
+              :
+              <Navigate to='/login' />
             }
-
           />
           <Route
             path='/edit'
             element={
               <EditChinchilla
                 handleUpdateChinchilla={handleUpdateChinchilla}
+                chinchillas={chinchillas}
               />
             }
           />
