@@ -8,6 +8,8 @@ import Profiles from './pages/Profiles/Profiles'
 import ChangePassword from './pages/ChangePassword/ChangePassword'
 import * as authService from './services/authService'
 import * as profileService from './services/profileService'
+import chinchillaService from './services/chinchillasService'
+
 
 // const App = () => {
 //   const [user, setUser] = useState(authService.getUser())
@@ -35,7 +37,7 @@ function App() {
 
   const handleDeleteChinchilla = id => {
     chinchillaService.deleteOne(id)
-      .then(deleteChinchilla => setChinchillas(chinchillas.filter(chinchilla => chinchilla._id !== deletedChinchilla._id)))
+      .then(deletedChinchilla => setChinchillas(chinchillas.filter(chinchilla => chinchilla._id !== deletedChinchilla._id)))
   }
 
   const handleUpdateChinchilla = updatedChinchillaData => {
@@ -99,7 +101,7 @@ function App() {
           />
           <Route
             path="/login"
-            element={<LoginPage handleSignupOrLogin={handleSignupOrLogin} />}
+            element={<Login handleSignupOrLogin={handleSignupOrLogin} />}
           />
           <Route
             path="/changePassword"
