@@ -1,4 +1,4 @@
-import { Link } from 'react-router-m'
+import { Link } from 'react-router-dom'
 
 function ChinchillaCard({ chinchilla, randDogImgId, handleDeleteChinchilla, user }) {
   return (

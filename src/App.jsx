@@ -8,7 +8,10 @@ import Profiles from './pages/Profiles/Profiles'
 import ChangePassword from './pages/ChangePassword/ChangePassword'
 import * as authService from './services/authService'
 import * as profileService from './services/profileService'
-import chinchillaService from './services/chinchillasService'
+import * as chinchillaService from './services/chinchillasService'
+import AddChinchilla from './pages/AddChinchilla/AddChinchilla'
+import ChinchillaList from './pages/ChinchillaList/ChinchillaList'
+import EditChinchilla from './pages/EditChinchilla/EditChinchilla'
 
 
 // const App = () => {
@@ -43,7 +46,7 @@ function App() {
   const handleUpdateChinchilla = updatedChinchillaData => {
     chinchillaService.update(updatedChinchillaData)
       .then(updatedChinchilla => {
-        const newChinchillasArray = chinchillas.map(chinchilla._id === updatedChinchilla._id ? updatedChinchilla : chinchilla)
+        const newChinchillasArray = chinchillas.map(chinchilla => chinchilla._id === updatedChinchilla._id ? updatedChinchilla : chinchilla)
         setChinchillas(newChinchillasArray)
         navigate('/')
       })
