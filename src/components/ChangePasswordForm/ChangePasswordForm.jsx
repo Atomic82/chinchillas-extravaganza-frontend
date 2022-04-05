@@ -24,7 +24,8 @@ const ChangePasswordForm = props => {
     try {
       await authService.changePassword(formData)
       props.handleSignupOrLogin()
-      navigate('/')
+      props.updateMessage("Password changed")
+      navigate('/changePassword')
     } catch (err) {
       props.updateMessage(err.message)
     }

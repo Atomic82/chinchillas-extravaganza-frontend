@@ -9,17 +9,41 @@ import ChangePassword from './pages/ChangePassword/ChangePassword'
 import * as authService from './services/authService'
 import * as profileService from './services/profileService'
 
-const App = () => {
-  const [user, setUser] = useState(authService.getUser())
-  const [profiles, setProfiles] = useState([])
+// const App = () => {
+//   const [user, setUser] = useState(authService.getUser())
+//   const [profiles, setProfiles] = useState([])
+//   const navigate = useNavigate()
+
+function App() {
+  const [chinchillas, setChinchillas] = useState([])
   const navigate = useNavigate()
+  const [user, setUser] = useState(null)
+
 
   useEffect(() => {
-    if (user) {
-      profileService.getAllProfiles()
-      .then(allProfiles => setProfiles(allProfiles))
-    }
-  }, [user])  
+    chinchillaService.getAll()
+      .then(allChinchillas => setChinchillas(allChinchillas))
+  }, [])
+
+  const handleAddChinchilla = async newChinchillaData => {
+    const newChinchilla = await chinchillaService.create(newChinchillaData)
+    setChinchillas([...chinchillas, newChinchilla])
+    navigate('/')
+  }
+
+  const handleDeleteChinchilla = id => {
+    chinchillaService.deleteOne(id)
+      .then(deleteChinchilla => setChinchillas(chinchillas.filter(chinchilla => chinchilla._id !== deletedChinchilla._id)))
+  }
+
+  const handleUpdateChinchilla = updatedChinchillaData => {
+    chinchillaSservice.update(updatedChinchillaData)
+      .then(updatedChinchilla => {
+        const newChinchillasArray = chinchillas.map(chinchilla._id === updatedChinchilla._id ? updatedChinchilla : chinchilla)
+        setChinchillas(newChinchillasArray)
+        navigate('/')
+      })
+  }
 
   const handleLogout = () => {
     authService.logout()
@@ -31,30 +55,55 @@ const App = () => {
     setUser(authService.getUser())
   }
 
+
   return (
-    <>
+    <div className="App">
       <NavBar user={user} handleLogout={handleLogout} />
-      <Routes>
-        <Route path="/" element={<Landing user={user} />} />
-        <Route
-          path="/signup"
-          element={<Signup handleSignupOrLogin={handleSignupOrLogin} />}
-        />
-        <Route
-          path="/login"
-          element={<Login handleSignupOrLogin={handleSignupOrLogin} />}
-        />
-        <Route
-          path="/profiles"
-          element={user ? <Profiles profiles={profiles}/> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/changePassword"
-          element={user ? <ChangePassword handleSignupOrLogin={handleSignupOrLogin}/> : <Navigate to="/login" />}
-        />
-      </Routes>
-    </>
+
+      <main>
+        <Routes>
+          <Route
+            path='/add' element={<AddChinchilla handleAddChinchilla={handleAddChinchilla}
+            />
+            }
+          />
+          <Route
+            path='/'
+            element={
+              <ChinchillaList
+                handleDeleteChinchilla={handleDeleteChinchilla}
+                chinchillas={chinchillas}
+
+              />
+            }
+
+          />
+          <Route
+            path='/edit'
+            element={
+              <EditChinchilla
+                handleUpdateChinchilla={handleUpdateChinchilla}
+              />
+            }
+          />
+          <Route
+            path="/signup"
+            element={<Signup handleSignupOrLogin={handleSignupOrLogin} />}
+          />
+          <Route
+            path="/login"
+            element={<LoginPage handleSignupOrLogin={handleSignupOrLogin} />}
+          />
+          <Route
+            path="/changePassword"
+            element={user ? <ChangePassword handleSignupOrLogin={handleSignupOrLogin} /> : <Navigate to="/login" />}
+          />
+        </Routes>
+      </main>
+    </div>
   )
 }
+
+
 
 export default App
