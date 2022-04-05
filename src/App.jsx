@@ -22,15 +22,20 @@ import EditChinchilla from './pages/EditChinchilla/EditChinchilla'
 function App() {
   const [chinchillas, setChinchillas] = useState([])
   const navigate = useNavigate()
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(authService.getUser())
 
 
   useEffect(() => {
+    console.log(user)
     if (user) {
       chinchillaService.getAll()
-        .then(allChinchillas => setChinchillas(allChinchillas))
+        .then(allChinchillas => {
+          console.log(allChinchillas)
+          setChinchillas(allChinchillas)
+        })
     }
-  }, [user])
+  }, [])
+  console.log(chinchillas)
 
   const handleAddChinchilla = async newChinchillaData => {
     const newChinchilla = await chinchillaService.create(newChinchillaData)
