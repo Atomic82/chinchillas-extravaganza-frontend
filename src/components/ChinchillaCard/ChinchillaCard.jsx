@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom'
 
-function ChinchillaCard({ chinchilla, randDogImgId, handleDeleteChinchilla, user }) {
+function ChinchillaCard({ chinchilla, handleDeleteChinchilla, user }) {
   return (
     <div className="card">
       <img
-        src={`https://picsum.photos/id/${randDogImgId}/640/480`}
+
         alt="A happy chinchilla"
         className="card-img-top"
       />
@@ -12,9 +12,13 @@ function ChinchillaCard({ chinchilla, randDogImgId, handleDeleteChinchilla, user
         <h2 className="card-text">{chinchilla.name}</h2>
         <p className="card-text">A {chinchilla.age}-year-old {chinchilla.breed}</p>
       </div>
+      {console.log('user profile', user.profile)}
+        {console.log('chinchilla owner', chinchilla.owner._id)}
       {
+        
         user.profile === chinchilla.owner?._id ?
           <div className="card-footer">
+            <button>
             <Link
               className='btn btn-sm btn-warning'
               to='/edit'
@@ -22,6 +26,7 @@ function ChinchillaCard({ chinchilla, randDogImgId, handleDeleteChinchilla, user
             >
               Edit
             </Link>
+            </button>
             <button
               className="btn btn-sm btn-danger m-left"
               onClick={() => handleDeleteChinchilla(chinchilla._id)}
@@ -31,7 +36,7 @@ function ChinchillaCard({ chinchilla, randDogImgId, handleDeleteChinchilla, user
           </div>
           :
           <div className="card-body">
-            <p className="card-text">- {chinchilla.owner?.name ? chinchilla.owner?.name : 'some person'}'s chinchilla</p>
+            <p className="card-text">- {chinchilla.owner?.name ? chinchilla.owner?.name : 'anonymous'}'s chinchilla</p>
           </div>
       }
     </div>
